@@ -1,22 +1,30 @@
-import { View, Text, TextInput, Button } from "react-native";
+import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
 import { StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 function NavigationHeader() {
+	const navigation = useNavigation();
 	return (
 		<View style={styles.container}>
-			<View style={styles.textIconContainer}>
+			<TouchableOpacity
+				style={styles.textIconContainer}
+				onPress={() => navigation.navigate("Home")}>
 				<MaterialIcons name="home" size={24} color="black" />
 				<Text style={styles.text}>Home</Text>
-			</View>
-			<View style={styles.textIconContainer}>
+			</TouchableOpacity>
+			<TouchableOpacity
+				style={styles.textIconContainer}
+				onPress={() => navigation.navigate("History")}>
 				<MaterialIcons name="history" size={24} color="black" />
 				<Text style={styles.text}>History</Text>
-			</View>
-			<View style={styles.textIconContainer}>
+			</TouchableOpacity>
+			<TouchableOpacity
+				style={styles.textIconContainer}
+				onPress={() => navigation.navigate("Settings")}>
 				<MaterialIcons name="settings" size={24} color="black" />
 				<Text style={styles.text}>Settings</Text>
-			</View>
+			</TouchableOpacity>
 		</View>
 	);
 }

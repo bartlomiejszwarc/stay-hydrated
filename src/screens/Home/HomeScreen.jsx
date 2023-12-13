@@ -8,7 +8,6 @@ import {
 	Button,
 } from "react-native";
 import DailyProgress from "../../components/DailyProgress";
-import NavigationHeader from "../../components/NavigationHeader";
 import { useState, useEffect } from "react";
 import AmountPicker from "../../components/Picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -27,7 +26,6 @@ function HomeScreen() {
 	}, []);
 	return (
 		<SafeAreaView style={styles.container}>
-			<NavigationHeader />
 			<View style={styles.container}>
 				<View style={{ marginBottom: 36 }}>
 					<Text style={styles.textHeader}>Stay hydrated</Text>
