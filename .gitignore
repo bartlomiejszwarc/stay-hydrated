@@ -3,7 +3,7 @@
 # dependencies
 node_modules/
 
-%ProgramData%/Microsoft/Windows/UUS/State
+%ProgramData%/
 
 # Expo
 .expo/
