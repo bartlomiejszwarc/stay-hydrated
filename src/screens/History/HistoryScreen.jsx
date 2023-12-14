@@ -9,8 +9,17 @@ import {
 function HistoryScreen() {
 	return (
 		<SafeAreaView>
-			<Text>History Screen</Text>
+			<View style={styles.container}>
+				<Text>History Screen</Text>
+			</View>
 		</SafeAreaView>
 	);
 }
+
+const styles = StyleSheet.create({
+	container: {
+		height: "100%",
+		backgroundColor: "#fafafa",
+	},
+});
 export default HistoryScreen;

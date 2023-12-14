@@ -9,7 +9,7 @@ function DailyProgress({ currentAmount, dailyAmount }) {
 
 	useEffect(() => {
 		const getData = async () => {
-			const data = await getDataFromStorage();
+			const data = (await getDataFromStorage()) || 0;
 			setCurrent(data);
 			setPercentage((data * 100) / dailyAmount);
 		};
@@ -17,15 +17,15 @@ function DailyProgress({ currentAmount, dailyAmount }) {
 	}, []);
 
 	return (
-		<View>
+		<View style={{ backgroundColor: "#fafafa" }}>
 			<ProgressCircle
 				percent={percentage}
 				radius={100}
 				borderWidth={18}
 				color="#0ea5e9"
 				shadowColor="#eff6ff"
-				bgColor="#fff">
-				<Text style={{ fontSize: 28 }}>{percentage}%</Text>
+				bgColor="#fafafa">
+				<Text style={{ fontSize: 28 }}>{Math.round(percentage)}%</Text>
 				<Text style={{ fontSize: 12, color: "#a3a3a3" }}>
 					{current}/{dailyAmount} ml
 				</Text>
