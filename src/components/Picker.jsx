@@ -1,52 +1,39 @@
-import { View, Text, TextInput, Button } from "react-native";
+import {
+	View,
+	Text,
+	TextInput,
+	Button,
+	StyleSheet,
+	TouchableOpacity,
+} from "react-native";
 import { Picker } from "react-native-wheel-pick";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useStoreData } from "../hooks/useStoreData";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SQLite from "expo-sqlite";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+const db = SQLite.openDatabase("database.db");
 
 function AmountPicker() {
 	const [amount, setAmount] = useState(250);
+	const { storeData } = useStoreData();
 
-	const deleteAllData = async () => {
-		const allKeys = await AsyncStorage.getAllKeys();
-		await AsyncStorage.multiRemove(allKeys);
-	};
-
-	const storeData = async () => {
-		try {
-			//await deleteAllData();
-			var records = await AsyncStorage.getItem(
-				new Date().toLocaleDateString("gb")
+	useEffect(() => {
+		db.transaction((tx) => {
+			//tx.executeSql("DROP TABLE IF EXISTS records");
+			tx.executeSql(
+				"CREATE TABLE IF NOT EXISTS records (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, time TEXT, value INTEGER);"
 			);
-			const intValue = parseInt(amount);
-			if (!records) {
-				const jsonValue = JSON.stringify([intValue]);
-				await AsyncStorage.setItem(
-					`${new Date().toLocaleDateString("gb")}`,
-					jsonValue
-				);
-			}
+		});
+	}, []);
 
-			if (records) {
-				const existingRecords = JSON.parse(records);
-				const numericRecords = existingRecords.map((record) =>
-					parseInt(record)
-				);
-
-				numericRecords.push(intValue);
-				await AsyncStorage.setItem(
-					`${new Date().toLocaleDateString("gb")}`,
-					JSON.stringify(numericRecords)
-				);
-			}
-
-			// await AsyncStorage.setItem("dailyGoal", JSON.stringify(3500));
-			// await AsyncStorage.removeItem("dailyGoal");
-		} catch (e) {
-			console.log("Error: " + e);
-		}
+	const storeDataInDatabase = async () => {
+		await storeData(amount);
 	};
+
 	return (
-		<View style={{ backgroundColor: "#fafafa" }}>
+		<View style={styles.container}>
 			<Picker
 				style={{ backgroundColor: "#fafafa", width: 300, height: 215 }}
 				selectedValue="250"
@@ -55,8 +42,33 @@ function AmountPicker() {
 					setAmount(value);
 				}}
 			/>
-			<Button title="Add" onPress={storeData}></Button>
+			<TouchableOpacity
+				style={styles.customButton}
+				onPress={storeDataInDatabase}>
+				<MaterialCommunityIcons
+					name="water-plus-outline"
+					size={42}
+					color="#fafafa"
+				/>
+			</TouchableOpacity>
 		</View>
 	);
 }
+const styles = StyleSheet.create({
+	container: {
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	customButton: {
+		backgroundColor: "#0ea5e9",
+		width: "100%",
+		justifyContent: "center",
+		padding: 10,
+		borderRadius: "100%",
+		shadowColor: "black",
+		shadowOffset: { width: 0, height: 0 },
+		shadowOpacity: 0.2,
+		shadowRadius: 5,
+	},
+});
 export default AmountPicker;

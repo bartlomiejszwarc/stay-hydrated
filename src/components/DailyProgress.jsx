@@ -1,33 +1,31 @@
 import ProgressCircle from "react-native-progress-circle";
-import { StyleSheet, Text, View, SafeAreaView, TextInput } from "react-native";
-import { useState, useEffect } from "react";
+import { Text, View } from "react-native";
+import { useEffect } from "react";
 import { useGetDailyAmount } from "../hooks/useGetDailyAmount";
-function DailyProgress({ currentAmount, dailyAmount }) {
-	const [current, setCurrent] = useState(currentAmount);
-	const [percentage, setPercentage] = useState(currentAmount / dailyAmount);
-	const { getDataFromStorage } = useGetDailyAmount();
+function DailyProgress({ dailyAmount }) {
+	const { getData, dailyAmount: data } = useGetDailyAmount();
 
 	useEffect(() => {
-		const getData = async () => {
-			const data = (await getDataFromStorage()) || 0;
-			setCurrent(data);
-			setPercentage((data * 100) / dailyAmount);
+		const getDailyData = async () => {
+			await getData();
 		};
-		getData();
+		getDailyData();
 	}, []);
 
 	return (
 		<View style={{ backgroundColor: "#fafafa" }}>
 			<ProgressCircle
-				percent={percentage}
+				percent={(data * 100) / dailyAmount}
 				radius={100}
-				borderWidth={18}
+				borderWidth={12}
 				color="#0ea5e9"
-				shadowColor="#eff6ff"
+				shadowColor="#dbeafe"
 				bgColor="#fafafa">
-				<Text style={{ fontSize: 28 }}>{Math.round(percentage)}%</Text>
-				<Text style={{ fontSize: 12, color: "#a3a3a3" }}>
-					{current}/{dailyAmount} ml
+				<Text style={{ fontSize: 28, fontWeight: 500, color: "#262626" }}>
+					{Math.round((data * 100) / dailyAmount)}%
+				</Text>
+				<Text style={{ fontSize: 14, color: "#171717", fontWeight: 100 }}>
+					{data}/{dailyAmount} ml
 				</Text>
 			</ProgressCircle>
 		</View>

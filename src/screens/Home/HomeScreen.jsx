@@ -12,6 +12,8 @@ import { useState, useEffect } from "react";
 import AmountPicker from "../../components/Picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+//TODO: Get daily amount from useGetDailyAmount
+
 function HomeScreen() {
 	const defaultDailyGoal = 2500;
 	const [dailyGoal, setDailyGoal] = useState(null);
@@ -59,12 +61,12 @@ const styles = StyleSheet.create({
 		width: 200,
 	},
 	textHeader: {
-		fontSize: 50,
-		fontWeight: "bold",
+		fontSize: 45,
+		fontWeight: "700",
 	},
 	textSubHeader: {
-		fontSize: 25,
-		fontWeight: "light",
+		fontSize: 20,
+		fontWeight: "300",
 		color: "#262626",
 	},
 });

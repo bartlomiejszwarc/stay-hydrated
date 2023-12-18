@@ -1,16 +1,36 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SQLite from "expo-sqlite";
+import { useState } from "react";
+
+const db = SQLite.openDatabase("database.db");
 
 export const useGetDailyAmount = () => {
-	const getDataFromStorage = async () => {
-		var dailyAmount = 0;
+	const [dailyAmount, setDailyAmount] = useState(0);
+	const getData = async () => {
 		const todayFormatted = new Date().toLocaleDateString("gb");
-		const todayData = await AsyncStorage.getItem(todayFormatted);
-		if (todayData) {
-			const parsedTodayData = JSON.parse(todayData);
-			parsedTodayData.forEach((record) => (dailyAmount += record));
+
+		try {
+			db.transaction(
+				(tx) => {
+					tx.executeSql(
+						"SELECT * FROM records WHERE date = ?",
+						[todayFormatted],
+						(_, { rows: { _array } }) => {
+							setDailyAmount(0);
+							_array.map((row) => {
+								setDailyAmount((prev) => prev + row.value);
+							});
+						}
+					);
+				},
+				(error) => {
+					throw new Error("Error executing SQL: ", error);
+				}
+			);
+		} catch (error) {
+			console.log("Error fetching data from database: ", error);
 		}
-		return JSON.parse(dailyAmount);
 	};
 
-	return { getDataFromStorage };
+	return { getData, dailyAmount };
 };

@@ -5,28 +5,37 @@ import {
 	SafeAreaView,
 	TextInput,
 	Button,
+	TouchableOpacity,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 import { useState } from "react";
 
 function SettingsScreen() {
+	const navigation = useNavigation();
 	const [weight, setWeight] = useState(80);
 	const [height, setHeight] = useState(180);
+	const [age, setAge] = useState(25);
 	return (
 		<SafeAreaView style={styles.container}>
+			<Text style={{ paddingLeft: 20, fontSize: 35, paddingTop: 20 }}>
+				Settings
+			</Text>
 			<View style={styles.settingField}>
 				<View style={styles.settingTitle}>
 					<FontAwesome5 name="weight" size={24} color="#525252" />
 					<Text style={{ fontWeight: 400, fontSize: 22 }}>Weight</Text>
 				</View>
-				<View style={styles.settingTitle}>
+				<TouchableOpacity
+					style={styles.settingTitle}
+					onPress={() => navigation.navigate("Weight")}>
 					<Text style={{ fontWeight: 100, fontSize: 20 }}>{weight} kg</Text>
 					<Entypo name="chevron-small-right" size={24} color="#525252" />
-				</View>
+				</TouchableOpacity>
 			</View>
 			<View style={styles.settingField}>
 				<View style={styles.settingTitle}>
@@ -37,10 +46,26 @@ function SettingsScreen() {
 					/>
 					<Text style={{ fontWeight: 400, fontSize: 22 }}>Height</Text>
 				</View>
-				<View style={styles.settingTitle}>
+				<TouchableOpacity
+					style={styles.settingTitle}
+					onPress={() => navigation.navigate("Height")}>
 					<Text style={{ fontWeight: 100, fontSize: 20 }}>{height} cm</Text>
 					<Entypo name="chevron-small-right" size={24} color="#525252" />
+				</TouchableOpacity>
+			</View>
+			<View style={styles.settingField}>
+				<View style={styles.settingTitle}>
+					<MaterialCommunityIcons
+						name="calendar-account"
+						size={24}
+						color="#525252"
+					/>
+					<Text style={{ fontWeight: 400, fontSize: 22 }}>Age</Text>
 				</View>
+				<TouchableOpacity style={styles.settingTitle}>
+					<Text style={{ fontWeight: 100, fontSize: 20 }}>{age}</Text>
+					<Entypo name="chevron-small-right" size={24} color="#525252" />
+				</TouchableOpacity>
 			</View>
 		</SafeAreaView>
 	);
@@ -62,6 +87,8 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 		backgroundColor: "#fafafa",
 		paddingVertical: 20,
+		borderBottomWidth: 1,
+		borderBottomColor: "#e5e5e5",
 	},
 	settingTitle: {
 		flexDirection: "row",
