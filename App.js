@@ -23,7 +23,7 @@ export default function App() {
 					<Stack.Screen name="Settings" component={SettingsScreen} />
 					<Stack.Screen name="Weight" component={SettingWeightScreen} />
 					<Stack.Screen name="Height" component={SettingHeightScreen} />
-					<Stack.Screen name="Agesta" component={SettingAgeScreen} />
+					<Stack.Screen name="Age" component={SettingAgeScreen} />
 				</Stack.Navigator>
 				<NavigationHeader />
 			</NavigationContainer>

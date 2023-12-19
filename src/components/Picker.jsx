@@ -27,8 +27,8 @@ function AmountPicker() {
 	return (
 		<View style={styles.container}>
 			<Picker
-				style={{ backgroundColor: "#fafafa", width: 300, height: 215 }}
-				selectedValue="250"
+				style={{ backgroundColor: "transparent", width: 300, height: 215 }}
+				selectedValue={250}
 				pickerData={[100, 150, 200, 250, 300, 350, 400, 450, 500]}
 				onValueChange={(value) => {
 					setAmount(value);
