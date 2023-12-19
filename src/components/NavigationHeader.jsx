@@ -1,9 +1,7 @@
-import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { useRoute } from "@react-navigation/native";
-import { useEffect } from "react";
 
 function NavigationHeader() {
 	const navigation = useNavigation();

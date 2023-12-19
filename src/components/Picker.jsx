@@ -1,15 +1,7 @@
-import {
-	View,
-	Text,
-	TextInput,
-	Button,
-	StyleSheet,
-	TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Picker } from "react-native-wheel-pick";
 import { useState, useEffect } from "react";
 import { useStoreData } from "../hooks/useStoreData";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SQLite from "expo-sqlite";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 

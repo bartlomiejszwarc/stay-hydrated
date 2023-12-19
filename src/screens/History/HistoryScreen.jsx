@@ -1,12 +1,4 @@
-import {
-	StyleSheet,
-	Text,
-	View,
-	ScrollView,
-	SafeAreaView,
-	TextInput,
-	Button,
-} from "react-native";
+import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
 import { useGetAllRecords } from "../../hooks/useGetAllRecords";
 
 import HistoryRecord from "../../components/HistoryRecord";

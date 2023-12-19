@@ -3,23 +3,33 @@ import {
 	Text,
 	View,
 	SafeAreaView,
-	TextInput,
-	Button,
 	TouchableOpacity,
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function SettingsScreen() {
 	const navigation = useNavigation();
-	const [weight, setWeight] = useState(80);
-	const [height, setHeight] = useState(180);
-	const [age, setAge] = useState(25);
+	const [weight, setWeight] = useState(null);
+	const [height, setHeight] = useState(null);
+	const [age, setAge] = useState(null);
+
+	useEffect(() => {
+		const getDataFromStorage = async () => {
+			const weightFromStorage = (await AsyncStorage.getItem("weight")) || null;
+			const heightFromStorage = (await AsyncStorage.getItem("height")) || null;
+			const ageFromStorage = (await AsyncStorage.getItem("age")) || null;
+			setWeight(weightFromStorage);
+			setHeight(heightFromStorage);
+			setAge(ageFromStorage);
+		};
+		getDataFromStorage();
+	}, []);
 	return (
 		<SafeAreaView style={styles.container}>
 			<Text style={{ paddingLeft: 20, fontSize: 35, paddingTop: 20 }}>
@@ -33,7 +43,12 @@ function SettingsScreen() {
 				<TouchableOpacity
 					style={styles.settingTitle}
 					onPress={() => navigation.navigate("Weight")}>
-					<Text style={{ fontWeight: 100, fontSize: 20 }}>{weight} kg</Text>
+					{weight && (
+						<Text style={{ fontWeight: 100, fontSize: 20 }}>{weight} kg</Text>
+					)}
+					{!weight && (
+						<Text style={{ fontWeight: 100, fontSize: 20 }}>-- kg</Text>
+					)}
 					<Entypo name="chevron-small-right" size={24} color="#525252" />
 				</TouchableOpacity>
 			</View>
@@ -49,7 +64,12 @@ function SettingsScreen() {
 				<TouchableOpacity
 					style={styles.settingTitle}
 					onPress={() => navigation.navigate("Height")}>
-					<Text style={{ fontWeight: 100, fontSize: 20 }}>{height} cm</Text>
+					{height && (
+						<Text style={{ fontWeight: 100, fontSize: 20 }}>{height} cm</Text>
+					)}
+					{!height && (
+						<Text style={{ fontWeight: 100, fontSize: 20 }}>-- cm</Text>
+					)}
 					<Entypo name="chevron-small-right" size={24} color="#525252" />
 				</TouchableOpacity>
 			</View>
@@ -62,8 +82,11 @@ function SettingsScreen() {
 					/>
 					<Text style={{ fontWeight: 400, fontSize: 22 }}>Age</Text>
 				</View>
-				<TouchableOpacity style={styles.settingTitle}>
-					<Text style={{ fontWeight: 100, fontSize: 20 }}>{age}</Text>
+				<TouchableOpacity
+					style={styles.settingTitle}
+					onPress={() => navigation.navigate("Age")}>
+					{age && <Text style={{ fontWeight: 100, fontSize: 20 }}>{age}</Text>}
+					{!age && <Text style={{ fontWeight: 100, fontSize: 20 }}>--</Text>}
 					<Entypo name="chevron-small-right" size={24} color="#525252" />
 				</TouchableOpacity>
 			</View>

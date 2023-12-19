@@ -4,7 +4,6 @@ import {
 	View,
 	SafeAreaView,
 	TextInput,
-	Button,
 	TouchableOpacity,
 } from "react-native";
 import { useState, useEffect } from "react";

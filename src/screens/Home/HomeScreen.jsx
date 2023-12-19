@@ -1,18 +1,8 @@
-import { StatusBar } from "expo-status-bar";
-import {
-	StyleSheet,
-	Text,
-	View,
-	SafeAreaView,
-	TextInput,
-	Button,
-} from "react-native";
+import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import DailyProgress from "../../components/DailyProgress";
 import { useState, useEffect } from "react";
 import AmountPicker from "../../components/Picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-//TODO: Get daily amount from useGetDailyAmount
 
 function HomeScreen() {
 	const defaultDailyGoal = 2500;
