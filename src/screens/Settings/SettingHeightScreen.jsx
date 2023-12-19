@@ -52,7 +52,7 @@ function SettingHeightScreen() {
 						onChangeText={(e) => handleInputOnChange(e)}
 						style={{ fontWeight: 100, fontSize: 20 }}
 						defaultValue={height}></TextInput>
-					<Text>kg</Text>
+					<Text>cm</Text>
 				</TouchableOpacity>
 			</View>
 			<View style={styles.buttonFlexContainer}>
