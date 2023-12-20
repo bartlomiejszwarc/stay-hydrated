@@ -4,12 +4,15 @@ import { useState, useEffect } from "react";
 import { useStoreData } from "../hooks/useStoreData";
 import * as SQLite from "expo-sqlite";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { addWaterAmount } from "../redux/slices/storageSlice";
+import { useDispatch } from "react-redux";
 
 const db = SQLite.openDatabase("database.db");
 
 function AmountPicker() {
 	const [amount, setAmount] = useState(250);
 	const { storeData } = useStoreData();
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		db.transaction((tx) => {
@@ -21,6 +24,7 @@ function AmountPicker() {
 	}, []);
 
 	const storeDataInDatabase = async () => {
+		dispatch(addWaterAmount(amount));
 		await storeData(amount);
 	};
 

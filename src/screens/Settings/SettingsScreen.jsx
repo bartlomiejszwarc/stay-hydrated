@@ -4,32 +4,34 @@ import {
 	View,
 	SafeAreaView,
 	TouchableOpacity,
+	Button,
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setHeight, setWeight, setAge } from "../../redux/slices/storageSlice";
 
 function SettingsScreen() {
-	const navigation = useNavigation();
-	const [weight, setWeight] = useState(null);
-	const [height, setHeight] = useState(null);
-	const [age, setAge] = useState(null);
+	const dispatch = useDispatch();
 
+	const navigation = useNavigation();
+	const data = useSelector((state) => state.storage);
 	useEffect(() => {
-		const getDataFromStorage = async () => {
+		const setInitialDataFromStorage = async () => {
 			const weightFromStorage = (await AsyncStorage.getItem("weight")) || null;
 			const heightFromStorage = (await AsyncStorage.getItem("height")) || null;
 			const ageFromStorage = (await AsyncStorage.getItem("age")) || null;
-			setWeight(weightFromStorage);
-			setHeight(heightFromStorage);
-			setAge(ageFromStorage);
+			dispatch(setHeight(heightFromStorage));
+			dispatch(setWeight(weightFromStorage));
+			dispatch(setAge(ageFromStorage));
 		};
-		getDataFromStorage();
+		setInitialDataFromStorage();
 	}, []);
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<Text style={{ paddingLeft: 20, fontSize: 35, paddingTop: 20 }}>
@@ -43,10 +45,12 @@ function SettingsScreen() {
 				<TouchableOpacity
 					style={styles.settingTitle}
 					onPress={() => navigation.navigate("Weight")}>
-					{weight && (
-						<Text style={{ fontWeight: 100, fontSize: 20 }}>{weight} kg</Text>
+					{data && (
+						<Text style={{ fontWeight: 100, fontSize: 20 }}>
+							{data.weight} kg
+						</Text>
 					)}
-					{!weight && (
+					{!data && (
 						<Text style={{ fontWeight: 100, fontSize: 20 }}>-- kg</Text>
 					)}
 					<Entypo name="chevron-small-right" size={24} color="#525252" />
@@ -64,10 +68,12 @@ function SettingsScreen() {
 				<TouchableOpacity
 					style={styles.settingTitle}
 					onPress={() => navigation.navigate("Height")}>
-					{height && (
-						<Text style={{ fontWeight: 100, fontSize: 20 }}>{height} cm</Text>
+					{data && (
+						<Text style={{ fontWeight: 100, fontSize: 20 }}>
+							{data.height} cm
+						</Text>
 					)}
-					{!height && (
+					{!data && (
 						<Text style={{ fontWeight: 100, fontSize: 20 }}>-- cm</Text>
 					)}
 					<Entypo name="chevron-small-right" size={24} color="#525252" />
@@ -85,8 +91,10 @@ function SettingsScreen() {
 				<TouchableOpacity
 					style={styles.settingTitle}
 					onPress={() => navigation.navigate("Age")}>
-					{age && <Text style={{ fontWeight: 100, fontSize: 20 }}>{age}</Text>}
-					{!age && <Text style={{ fontWeight: 100, fontSize: 20 }}>--</Text>}
+					{data && (
+						<Text style={{ fontWeight: 100, fontSize: 20 }}>{data.age}</Text>
+					)}
+					{!data && <Text style={{ fontWeight: 100, fontSize: 20 }}>--</Text>}
 					<Entypo name="chevron-small-right" size={24} color="#525252" />
 				</TouchableOpacity>
 			</View>
