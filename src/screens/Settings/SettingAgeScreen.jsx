@@ -6,29 +6,26 @@ import {
 	TextInput,
 	TouchableOpacity,
 } from "react-native";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSelector, useDispatch } from "react-redux";
+import { setAge } from "../../redux/slices/storageSlice";
 
 function SettingAgeScreen() {
-	const [age, setAge] = useState();
+	const [ageInput, setAgeInput] = useState(null);
 	const navigation = useNavigation();
-
-	useEffect(() => {
-		const getAgeFromStorage = async () => {
-			const ageFromStorage = (await AsyncStorage.getItem("age")) || 0;
-			setAge(ageFromStorage);
-		};
-		getAgeFromStorage();
-	}, []);
+	const store = useSelector((state) => state.storage);
+	const dispatch = useDispatch();
 
 	const handleInputOnChange = (e) => {
-		setAge(e);
+		setAgeInput(e);
 	};
 
 	const handleInputOnSubmit = async () => {
-		await AsyncStorage.setItem("age", age);
+		try {
+			dispatch(setAge(ageInput));
+		} catch (e) {}
 	};
 	return (
 		<SafeAreaView style={styles.container}>
@@ -51,7 +48,7 @@ function SettingAgeScreen() {
 						autoFocus
 						onChangeText={(e) => handleInputOnChange(e)}
 						style={{ fontWeight: 100, fontSize: 20 }}
-						defaultValue={age}></TextInput>
+						defaultValue={store.age}></TextInput>
 				</TouchableOpacity>
 			</View>
 			<View style={styles.buttonFlexContainer}>

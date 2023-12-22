@@ -6,30 +6,28 @@ import {
 	TextInput,
 	TouchableOpacity,
 } from "react-native";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSelector, useDispatch } from "react-redux";
+import { setWeight } from "../../redux/slices/storageSlice";
 
 function SettingWeightScreen() {
-	const [weight, setWeight] = useState();
+	const [weightInput, setWeightInput] = useState();
 	const navigation = useNavigation();
-
-	useEffect(() => {
-		const getWeightFromStorage = async () => {
-			const weightFromStorage = (await AsyncStorage.getItem("weight")) || 0;
-			setWeight(weightFromStorage);
-		};
-		getWeightFromStorage();
-	}, []);
+	const store = useSelector((state) => state.storage);
+	const dispatch = useDispatch();
 
 	const handleInputOnChange = (e) => {
-		setWeight(e);
+		setWeightInput(e);
 	};
 
 	const handleInputOnSubmit = async () => {
-		await AsyncStorage.setItem("weight", weight);
+		try {
+			dispatch(setWeight(weightInput));
+		} catch (e) {}
 	};
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<TouchableOpacity onPress={() => navigation.navigate("Settings")}>
@@ -51,7 +49,7 @@ function SettingWeightScreen() {
 						autoFocus
 						onChangeText={(e) => handleInputOnChange(e)}
 						style={{ fontWeight: 100, fontSize: 20 }}
-						defaultValue={weight}></TextInput>
+						defaultValue={store.weight}></TextInput>
 					<Text>kg</Text>
 				</TouchableOpacity>
 			</View>

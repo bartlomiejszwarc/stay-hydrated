@@ -6,29 +6,26 @@ import {
 	TextInput,
 	TouchableOpacity,
 } from "react-native";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSelector, useDispatch } from "react-redux";
+import { setHeight } from "../../redux/slices/storageSlice";
 
 function SettingHeightScreen() {
-	const [height, setHeight] = useState();
+	const [heightInput, setHeightInput] = useState();
 	const navigation = useNavigation();
-
-	useEffect(() => {
-		const getHeightFromStorage = async () => {
-			const heightFromStorage = (await AsyncStorage.getItem("height")) || 0;
-			setHeight(heightFromStorage);
-		};
-		getHeightFromStorage();
-	}, []);
+	const store = useSelector((state) => state.storage);
+	const dispatch = useDispatch();
 
 	const handleInputOnChange = (e) => {
-		setHeight(e);
+		setHeightInput(e);
 	};
 
 	const handleInputOnSubmit = async () => {
-		await AsyncStorage.setItem("height", height);
+		try {
+			dispatch(setHeight(heightInput));
+		} catch (e) {}
 	};
 	return (
 		<SafeAreaView style={styles.container}>
@@ -51,7 +48,7 @@ function SettingHeightScreen() {
 						autoFocus
 						onChangeText={(e) => handleInputOnChange(e)}
 						style={{ fontWeight: 100, fontSize: 20 }}
-						defaultValue={height}></TextInput>
+						defaultValue={store.height}></TextInput>
 					<Text>cm</Text>
 				</TouchableOpacity>
 			</View>
