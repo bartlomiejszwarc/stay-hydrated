@@ -4,16 +4,20 @@ import {
 	View,
 	SafeAreaView,
 	TouchableOpacity,
-	Button,
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setHeight, setWeight, setAge } from "../../redux/slices/storageSlice";
+import {
+	setHeight,
+	setWeight,
+	setAge,
+	setGender,
+} from "../../redux/slices/storageSlice";
 import SuggestedWaterAmount from "../../components/SuggestedWaterAmount";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -27,9 +31,11 @@ function SettingsScreen() {
 			const weightFromStorage = (await AsyncStorage.getItem("weight")) || null;
 			const heightFromStorage = (await AsyncStorage.getItem("height")) || null;
 			const ageFromStorage = (await AsyncStorage.getItem("age")) || null;
+			const genderFromStorage = (await AsyncStorage.getItem("gender")) || null;
 			dispatch(setHeight(heightFromStorage));
 			dispatch(setWeight(weightFromStorage));
 			dispatch(setAge(ageFromStorage));
+			dispatch(setGender(genderFromStorage));
 		};
 		setInitialDataFromStorage();
 	}, []);

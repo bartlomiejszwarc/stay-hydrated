@@ -7,6 +7,7 @@ const initialState = {
 	age: null,
 	waterAmount: null,
 	gender: null,
+	suggestedWaterAmount: null,
 };
 
 const storageSlice = createSlice({
@@ -33,6 +34,10 @@ const storageSlice = createSlice({
 			state.waterAmount = action.payload;
 			AsyncStorage.setItem("waterAmount", action.payload.toString());
 		},
+		setSuggestedWaterAmount: (state, action) => {
+			state.suggestedWaterAmount = action.payload;
+			AsyncStorage.setItem("suggestedWaterAmount", action.payload.toString());
+		},
 		addWaterAmount: (state, action) => {
 			state.waterAmount += parseInt(action.payload);
 			AsyncStorage.setItem("waterAmount", state.waterAmount.toString());
@@ -46,6 +51,7 @@ export const {
 	setAge,
 	setGender,
 	setWaterAmount,
+	setSuggestedWaterAmount,
 	addWaterAmount,
 } = storageSlice.actions;
 export default storageSlice.reducer;
