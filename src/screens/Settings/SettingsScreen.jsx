@@ -14,6 +14,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setHeight, setWeight, setAge } from "../../redux/slices/storageSlice";
+import SuggestedWaterAmount from "../../components/SuggestedWaterAmount";
+import { Ionicons } from "@expo/vector-icons";
 
 function SettingsScreen() {
 	const dispatch = useDispatch();
@@ -45,12 +47,12 @@ function SettingsScreen() {
 				<TouchableOpacity
 					style={styles.settingTitle}
 					onPress={() => navigation.navigate("Weight")}>
-					{data && (
+					{data.weight && (
 						<Text style={{ fontWeight: 100, fontSize: 20 }}>
 							{data.weight} kg
 						</Text>
 					)}
-					{!data && (
+					{!data.weight && (
 						<Text style={{ fontWeight: 100, fontSize: 20 }}>-- kg</Text>
 					)}
 					<Entypo name="chevron-small-right" size={24} color="#525252" />
@@ -68,12 +70,12 @@ function SettingsScreen() {
 				<TouchableOpacity
 					style={styles.settingTitle}
 					onPress={() => navigation.navigate("Height")}>
-					{data && (
+					{data.height && (
 						<Text style={{ fontWeight: 100, fontSize: 20 }}>
 							{data.height} cm
 						</Text>
 					)}
-					{!data && (
+					{!data.height && (
 						<Text style={{ fontWeight: 100, fontSize: 20 }}>-- cm</Text>
 					)}
 					<Entypo name="chevron-small-right" size={24} color="#525252" />
@@ -91,12 +93,34 @@ function SettingsScreen() {
 				<TouchableOpacity
 					style={styles.settingTitle}
 					onPress={() => navigation.navigate("Age")}>
-					{data && (
+					{data.age && (
 						<Text style={{ fontWeight: 100, fontSize: 20 }}>{data.age}</Text>
 					)}
-					{!data && <Text style={{ fontWeight: 100, fontSize: 20 }}>--</Text>}
+					{!data.age && (
+						<Text style={{ fontWeight: 100, fontSize: 20 }}>--</Text>
+					)}
 					<Entypo name="chevron-small-right" size={24} color="#525252" />
 				</TouchableOpacity>
+			</View>
+			<View style={styles.settingField}>
+				<View style={styles.settingTitle}>
+					<Ionicons name="person" size={24} color="#525252" />
+					<Text style={{ fontWeight: 400, fontSize: 22 }}>Gender</Text>
+				</View>
+				<TouchableOpacity
+					style={styles.settingTitle}
+					onPress={() => navigation.navigate("Gender")}>
+					{data.gender && (
+						<Text style={{ fontWeight: 100, fontSize: 20 }}>{data.gender}</Text>
+					)}
+					{!data.gender && (
+						<Text style={{ fontWeight: 100, fontSize: 20 }}>--</Text>
+					)}
+					<Entypo name="chevron-small-right" size={24} color="#525252" />
+				</TouchableOpacity>
+			</View>
+			<View style={styles.suggestedWaterAmountContainer}>
+				<SuggestedWaterAmount data={data} />
 			</View>
 		</SafeAreaView>
 	);
@@ -131,5 +155,10 @@ const styles = StyleSheet.create({
 		color: "blue",
 		fontSize: 20,
 		fontWeight: "ultralight",
+	},
+	suggestedWaterAmountContainer: {
+		justifyContent: "center",
+		flexDirection: "row",
+		paddingTop: 10,
 	},
 });

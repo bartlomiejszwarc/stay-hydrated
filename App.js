@@ -5,6 +5,7 @@ import SettingsScreen from "./src/screens/Settings/SettingsScreen";
 import SettingWeightScreen from "./src/screens/Settings/SettingWeightScreen";
 import SettingHeightScreen from "./src/screens/Settings/SettingHeightScreen";
 import SettingAgeScreen from "./src/screens/Settings/SettingAgeScreen";
+import SettingGenderScreen from "./src/screens/Settings/SettingGenderScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import NavigationHeader from "./src/components/NavigationHeader";
@@ -28,6 +29,7 @@ export default function App() {
 						<Stack.Screen name="Weight" component={SettingWeightScreen} />
 						<Stack.Screen name="Height" component={SettingHeightScreen} />
 						<Stack.Screen name="Age" component={SettingAgeScreen} />
+						<Stack.Screen name="Gender" component={SettingGenderScreen} />
 					</Stack.Navigator>
 					<NavigationHeader />
 				</NavigationContainer>

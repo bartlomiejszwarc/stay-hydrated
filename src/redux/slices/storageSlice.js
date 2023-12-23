@@ -6,6 +6,7 @@ const initialState = {
 	weight: null,
 	age: null,
 	waterAmount: null,
+	gender: null,
 };
 
 const storageSlice = createSlice({
@@ -24,6 +25,10 @@ const storageSlice = createSlice({
 			state.age = action.payload;
 			AsyncStorage.setItem("age", action.payload.toString());
 		},
+		setGender: (state, action) => {
+			state.gender = action.payload;
+			AsyncStorage.setItem("gender", action.payload.toString());
+		},
 		setWaterAmount: (state, action) => {
 			state.waterAmount = action.payload;
 			AsyncStorage.setItem("waterAmount", action.payload.toString());
@@ -35,6 +40,12 @@ const storageSlice = createSlice({
 	},
 });
 
-export const { setWeight, setHeight, setAge, setWaterAmount, addWaterAmount } =
-	storageSlice.actions;
+export const {
+	setWeight,
+	setHeight,
+	setAge,
+	setGender,
+	setWaterAmount,
+	addWaterAmount,
+} = storageSlice.actions;
 export default storageSlice.reducer;
