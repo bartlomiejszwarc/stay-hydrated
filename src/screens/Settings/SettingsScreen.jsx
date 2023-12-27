@@ -29,7 +29,6 @@ function SettingsScreen() {
 
 	const navigation = useNavigation();
 	const data = useSelector((state) => state.storage);
-	const [dataLoaded, setDataLoaded] = useState(false);
 	useEffect(() => {
 		const setInitialDataFromStorage = async () => {
 			const weightFromStorage = (await AsyncStorage.getItem("weight")) || null;
@@ -43,17 +42,26 @@ function SettingsScreen() {
 			dispatch(setWeight(weightFromStorage));
 			dispatch(setAge(ageFromStorage));
 			dispatch(setGender(genderFromStorage));
-			dispatch(setAutoWaterIntakeEnabled(Boolean(autoWaterIntakeEnabled)));
+			dispatch(setAutoWaterIntakeEnabled(JSON.parse(autoWaterIntakeEnabled)));
 		};
 		setInitialDataFromStorage();
 	}, [dispatch]);
 
-	const toggleSwitch = () =>
-		dispatch(setAutoWaterIntakeEnabled(!data.autoWaterIntakeEnabled));
+	const toggleSwitch = async () => {
+		try {
+			dispatch(setAutoWaterIntakeEnabled(!data.autoWaterIntakeEnabled));
+		} catch (e) {}
+	};
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<Text style={{ paddingLeft: 20, fontSize: 35, paddingTop: 20 }}>
+			<Text
+				style={{
+					paddingLeft: 20,
+					fontSize: 16,
+					fontWeight: 200,
+					paddingTop: 20,
+				}}>
 				Settings
 			</Text>
 			<View style={styles.settingField}>
@@ -144,16 +152,16 @@ function SettingsScreen() {
 					</Text>
 				</View>
 				<Switch
-					value={Boolean(data.autoWaterIntakeEnabled)}
+					value={!!data.autoWaterIntakeEnabled}
 					onValueChange={toggleSwitch}
 				/>
 			</View>
-			{Boolean(data.autoWaterIntakeEnabled) && (
+			{data.autoWaterIntakeEnabled && (
 				<View style={styles.suggestedWaterAmountContainer}>
 					<SuggestedWaterAmount data={data} />
 				</View>
 			)}
-			{!Boolean(data.autoWaterIntakeEnabled) && (
+			{!data.autoWaterIntakeEnabled && (
 				<View style={styles.suggestedWaterAmountContainer}>
 					<WaterAmountSetter />
 				</View>

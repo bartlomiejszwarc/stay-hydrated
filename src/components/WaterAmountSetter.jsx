@@ -7,11 +7,11 @@ function WaterAmountSetter() {
 	return (
 		<View style={styles.circle}>
 			<View style={styles.button}>
-				<AntDesign name="plus" size={36} color="#fafafa" />
+				<AntDesign name="minus" size={36} color="#fafafa" />
 			</View>
 			<Text style={styles.amountText}>{defaultWaterIntake} ml</Text>
 			<View style={styles.button}>
-				<AntDesign name="minus" size={36} color="#fafafa" />
+				<AntDesign name="plus" size={36} color="#fafafa" />
 			</View>
 		</View>
 	);
