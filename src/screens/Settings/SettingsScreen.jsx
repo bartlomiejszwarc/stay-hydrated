@@ -19,6 +19,7 @@ import {
 	setAge,
 	setGender,
 	setAutoWaterIntakeEnabled,
+	setSuggestedWaterAmount,
 } from "../../redux/slices/storageSlice";
 import SuggestedWaterAmount from "../../components/SuggestedWaterAmount";
 import { Ionicons } from "@expo/vector-icons";
@@ -49,6 +50,7 @@ function SettingsScreen() {
 
 	const toggleSwitch = async () => {
 		try {
+			dispatch(setSuggestedWaterAmount(0));
 			dispatch(setAutoWaterIntakeEnabled(!data.autoWaterIntakeEnabled));
 		} catch (e) {}
 	};
