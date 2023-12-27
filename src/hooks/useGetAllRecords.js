@@ -12,7 +12,7 @@ export const useGetAllRecords = () => {
 				db.transaction(
 					(tx) => {
 						tx.executeSql(
-							"SELECT * FROM records",
+							"SELECT * FROM records ORDER BY date DESC, time DESC",
 							[],
 							(_, { rows: { _array } }) => {
 								setRecords(_array);

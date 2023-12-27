@@ -8,6 +8,7 @@ const initialState = {
 	waterAmount: null,
 	gender: null,
 	suggestedWaterAmount: null,
+	autoWaterIntakeEnabled: null,
 };
 
 const storageSlice = createSlice({
@@ -42,6 +43,10 @@ const storageSlice = createSlice({
 			state.waterAmount += parseInt(action.payload);
 			AsyncStorage.setItem("waterAmount", state.waterAmount.toString());
 		},
+		setAutoWaterIntakeEnabled: (state, action) => {
+			state.autoWaterIntakeEnabled = action.payload;
+			AsyncStorage.setItem("autoWaterIntakeEnabled", action.payload.toString());
+		},
 	},
 });
 
@@ -53,5 +58,6 @@ export const {
 	setWaterAmount,
 	setSuggestedWaterAmount,
 	addWaterAmount,
+	setAutoWaterIntakeEnabled,
 } = storageSlice.actions;
 export default storageSlice.reducer;

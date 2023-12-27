@@ -19,7 +19,7 @@ function SuggestedWaterAmount({ data }) {
 		if (data?.gender === "Male") {
 			try {
 				setSuggestedWaterIntakeAmount(waterIntakeForMaleFormula);
-				dispatch(setSuggestedWaterAmount(1500));
+				dispatch(setSuggestedWaterAmount(waterIntakeForMaleFormula));
 			} catch (e) {}
 		}
 		if (data?.gender === "Female") {

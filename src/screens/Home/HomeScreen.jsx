@@ -3,14 +3,21 @@ import DailyProgress from "../../components/DailyProgress";
 import { useState, useEffect } from "react";
 import AmountPicker from "../../components/Picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setSuggestedWaterAmount } from "../../redux/slices/storageSlice";
 
 function HomeScreen() {
-	const defaultDailyGoal = 2500;
-	const [dailyGoal, setDailyGoal] = useState(null);
+	const store = useSelector((state) => state.storage);
+	const dispatch = useDispatch();
 
 	const getDailyGoalFromStorage = async () => {
-		const goal = await AsyncStorage.getItem("dailyGoal");
-		setDailyGoal(goal);
+		const goal = await AsyncStorage.getItem("suggestedWaterAmount");
+		if (goal?.length > 0) {
+			dispatch(setSuggestedWaterAmount(goal));
+		} else {
+			dispatch(setSuggestedWaterAmount(2500));
+		}
 	};
 
 	useEffect(() => {
@@ -24,7 +31,7 @@ function HomeScreen() {
 					<Text style={styles.textSubHeader}>Drink water.</Text>
 				</View>
 				<View style={styles.amountContainer}>
-					<DailyProgress dailyAmount={dailyGoal || defaultDailyGoal} />
+					<DailyProgress dailyAmount={store.suggestedWaterAmount} />
 					<AmountPicker />
 				</View>
 			</View>

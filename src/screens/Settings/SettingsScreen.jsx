@@ -4,41 +4,52 @@ import {
 	View,
 	SafeAreaView,
 	TouchableOpacity,
+	Switch,
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
 	setHeight,
 	setWeight,
 	setAge,
 	setGender,
+	setAutoWaterIntakeEnabled,
 } from "../../redux/slices/storageSlice";
 import SuggestedWaterAmount from "../../components/SuggestedWaterAmount";
 import { Ionicons } from "@expo/vector-icons";
+import WaterAmountSetter from "../../components/WaterAmountSetter";
 
 function SettingsScreen() {
 	const dispatch = useDispatch();
 
 	const navigation = useNavigation();
 	const data = useSelector((state) => state.storage);
+	const [dataLoaded, setDataLoaded] = useState(false);
 	useEffect(() => {
 		const setInitialDataFromStorage = async () => {
 			const weightFromStorage = (await AsyncStorage.getItem("weight")) || null;
 			const heightFromStorage = (await AsyncStorage.getItem("height")) || null;
 			const ageFromStorage = (await AsyncStorage.getItem("age")) || null;
 			const genderFromStorage = (await AsyncStorage.getItem("gender")) || null;
+			const autoWaterIntakeEnabled =
+				(await AsyncStorage.getItem("autoWaterIntakeEnabled")) || null;
+
 			dispatch(setHeight(heightFromStorage));
 			dispatch(setWeight(weightFromStorage));
 			dispatch(setAge(ageFromStorage));
 			dispatch(setGender(genderFromStorage));
+			dispatch(setAutoWaterIntakeEnabled(Boolean(autoWaterIntakeEnabled)));
 		};
 		setInitialDataFromStorage();
-	}, []);
+	}, [dispatch]);
+
+	const toggleSwitch = () =>
+		dispatch(setAutoWaterIntakeEnabled(!data.autoWaterIntakeEnabled));
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -125,9 +136,28 @@ function SettingsScreen() {
 					<Entypo name="chevron-small-right" size={24} color="#525252" />
 				</TouchableOpacity>
 			</View>
-			<View style={styles.suggestedWaterAmountContainer}>
-				<SuggestedWaterAmount data={data} />
+			<View style={styles.settingField}>
+				<View style={styles.settingTitle}>
+					<Ionicons name="water-sharp" size={24} color="#525252" />
+					<Text style={{ fontWeight: 400, fontSize: 22 }}>
+						Calculate water intake
+					</Text>
+				</View>
+				<Switch
+					value={Boolean(data.autoWaterIntakeEnabled)}
+					onValueChange={toggleSwitch}
+				/>
 			</View>
+			{Boolean(data.autoWaterIntakeEnabled) && (
+				<View style={styles.suggestedWaterAmountContainer}>
+					<SuggestedWaterAmount data={data} />
+				</View>
+			)}
+			{!Boolean(data.autoWaterIntakeEnabled) && (
+				<View style={styles.suggestedWaterAmountContainer}>
+					<WaterAmountSetter />
+				</View>
+			)}
 		</SafeAreaView>
 	);
 }
@@ -163,8 +193,9 @@ const styles = StyleSheet.create({
 		fontWeight: "ultralight",
 	},
 	suggestedWaterAmountContainer: {
-		justifyContent: "center",
+		width: "100%",
 		flexDirection: "row",
+		justifyContent: "center",
 		paddingTop: 10,
 	},
 });
