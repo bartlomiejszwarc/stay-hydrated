@@ -11,30 +11,35 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import NavigationHeader from "./src/components/NavigationHeader";
 import { Provider } from "react-redux";
 import { store } from "./src/redux/store";
+import "react-native-gesture-handler";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
 	return (
-		<Provider store={store}>
-			<SafeAreaView style={styles.container}>
-				<NavigationContainer>
-					<Stack.Navigator
-						screenOptions={{
-							headerShown: false,
-						}}>
-						<Stack.Screen name="Home" component={HomeScreen} />
-						<Stack.Screen name="History" component={HistoryScreen} />
-						<Stack.Screen name="Settings" component={SettingsScreen} />
-						<Stack.Screen name="Weight" component={SettingWeightScreen} />
-						<Stack.Screen name="Height" component={SettingHeightScreen} />
-						<Stack.Screen name="Age" component={SettingAgeScreen} />
-						<Stack.Screen name="Gender" component={SettingGenderScreen} />
-					</Stack.Navigator>
-					<NavigationHeader />
-				</NavigationContainer>
-			</SafeAreaView>
-		</Provider>
+		<GestureHandlerRootView style={{ flex: 1 }}>
+			<Provider store={store}>
+				<SafeAreaView style={styles.container}>
+					<NavigationContainer>
+						<Stack.Navigator
+							screenOptions={{
+								headerShown: false,
+							}}>
+							<Stack.Screen name="Home" component={HomeScreen} />
+							<Stack.Screen name="History" component={HistoryScreen} />
+							<Stack.Screen name="Settings" component={SettingsScreen} />
+							<Stack.Screen name="Weight" component={SettingWeightScreen} />
+							<Stack.Screen name="Height" component={SettingHeightScreen} />
+							<Stack.Screen name="Age" component={SettingAgeScreen} />
+							<Stack.Screen name="Gender" component={SettingGenderScreen} />
+						</Stack.Navigator>
+
+						<NavigationHeader />
+					</NavigationContainer>
+				</SafeAreaView>
+			</Provider>
+		</GestureHandlerRootView>
 	);
 }
 

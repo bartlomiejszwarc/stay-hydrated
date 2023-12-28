@@ -1,34 +1,69 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+	StyleSheet,
+	Text,
+	View,
+	TouchableOpacity,
+	Dimensions,
+	Animated,
+} from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useDeleteRecord } from "./../hooks/useDeleteRecord";
+import { Swipeable } from "react-native-gesture-handler";
+import { Ionicons } from "@expo/vector-icons";
+
+const windowWidth = Dimensions.get("window").width;
 
 function HistoryRecord({ record }) {
 	const { deleteRecord } = useDeleteRecord();
 
+	const rightPanel = (progress, dragX) => {
+		const trans = dragX.interpolate({
+			inputRange: [-50, 200],
+			outputRange: [0, 150],
+			extrapolate: "clamp",
+		});
+
+		return (
+			<Animated.View style={styles.rightSwipeContainer}>
+				<Animated.View
+					style={{
+						transform: [{ translateX: trans }],
+					}}>
+					<Animated.Text
+						style={{
+							transform: [{ translateX: trans }],
+						}}>
+						<Ionicons name="ios-trash-bin" size={24} color="#fafafa" />
+					</Animated.Text>
+				</Animated.View>
+			</Animated.View>
+		);
+	};
 	return (
-		<View style={styles.wrapper}>
-			<View style={styles.container}>
-				<MaterialIcons name="local-drink" size={36} color="#0ea5e9" />
-				<View style={styles.dateContainer}>
-					<Text style={styles.dateText}>{record.date}</Text>
-					<Text style={styles.dateText}>{record.time}</Text>
+		<Swipeable renderRightActions={rightPanel} activeOpacity={0.8}>
+			<View style={styles.wrapper}>
+				<View style={styles.container}>
+					<MaterialIcons name="local-drink" size={36} color="#0ea5e9" />
+					<View style={styles.dateContainer}>
+						<Text style={styles.dateText}>{record.date}</Text>
+						<Text style={styles.dateText}>{record.time}</Text>
+					</View>
 				</View>
+				<TouchableOpacity style={styles.recordsContainer}>
+					<Text style={styles.recordText}>{record.value} ml</Text>
+				</TouchableOpacity>
 			</View>
-			<TouchableOpacity
-				style={styles.recordsContainer}
-				onPress={() => deleteRecord(record.id)}>
-				<Text style={styles.recordText}>{record.value} ml</Text>
-			</TouchableOpacity>
-		</View>
+		</Swipeable>
 	);
 }
 const styles = StyleSheet.create({
 	wrapper: {
 		flexDirection: "row",
-		width: "100%",
+		width: windowWidth,
 		justifyContent: "space-between",
 		alignItems: "center",
 		paddingHorizontal: 10,
+		backgroundColor: "#fafafa",
 	},
 	dateText: {
 		fontSize: 16,
@@ -57,6 +92,12 @@ const styles = StyleSheet.create({
 	},
 	recordsContainer: {
 		paddingHorizontal: 4,
+	},
+	rightSwipeContainer: {
+		alignItems: "center",
+		justifyContent: "center",
+		backgroundColor: "#b91c1c",
+		width: 50,
 	},
 });
 export default HistoryRecord;

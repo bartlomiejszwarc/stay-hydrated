@@ -1,7 +1,16 @@
-import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
+import {
+	StyleSheet,
+	Text,
+	View,
+	ScrollView,
+	SafeAreaView,
+	Dimensions,
+	FlatList,
+} from "react-native";
 import { useGetAllRecords } from "../../hooks/useGetAllRecords";
 
 import HistoryRecord from "../../components/HistoryRecord";
+
 function HistoryScreen() {
 	const { records } = useGetAllRecords();
 
@@ -11,19 +20,21 @@ function HistoryScreen() {
 				<Text style={styles.title}>Date</Text>
 				<Text style={styles.title}>Amount</Text>
 			</View>
-			<ScrollView style={styles.container}>
-				{records.map((record, index) => (
-					<HistoryRecord record={record} key={index} />
-				))}
-			</ScrollView>
+			<View style={styles.container}>
+				<FlatList
+					data={records}
+					renderItem={({ item }) => <HistoryRecord record={item} />}
+					keyExtractor={(item) => item.id}
+				/>
+			</View>
 		</SafeAreaView>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
-		height: "100%",
 		backgroundColor: "#fafafa",
+		height: "100%",
 	},
 	titlesContainer: {
 		justifyContent: "space-between",
