@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		marginHorizontal: 3,
 		borderColor: "#e5e5e5",
-		borderWidth: 1,
+		borderWidth: 0,
 		paddingVertical: 4,
 		paddingHorizontal: 20,
 	},
@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
 	},
 	settingValue: {
 		color: "blue",
+		borderWidth: 0,
 		fontSize: 20,
 		fontWeight: "ultralight",
 	},

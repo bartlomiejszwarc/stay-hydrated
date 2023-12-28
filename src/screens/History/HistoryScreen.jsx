@@ -7,11 +7,11 @@ function HistoryScreen() {
 
 	return (
 		<SafeAreaView>
+			<View style={styles.titlesContainer}>
+				<Text style={styles.title}>Date</Text>
+				<Text style={styles.title}>Amount</Text>
+			</View>
 			<ScrollView style={styles.container}>
-				<View style={styles.titlesContainer}>
-					<Text style={styles.title}>Date</Text>
-					<Text style={styles.title}>Amount</Text>
-				</View>
 				{records.map((record, index) => (
 					<HistoryRecord record={record} key={index} />
 				))}
@@ -24,13 +24,13 @@ const styles = StyleSheet.create({
 	container: {
 		height: "100%",
 		backgroundColor: "#fafafa",
-		paddingVertical: 10,
 	},
 	titlesContainer: {
 		justifyContent: "space-between",
 		alignContent: "space-between",
 		flexDirection: "row",
 		paddingHorizontal: 14,
+		backgroundColor: "#fafafa",
 		paddingVertical: 10,
 	},
 	title: {

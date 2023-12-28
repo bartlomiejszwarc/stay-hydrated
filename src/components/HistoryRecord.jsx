@@ -1,7 +1,10 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useDeleteRecord } from "./../hooks/useDeleteRecord";
 
 function HistoryRecord({ record }) {
+	const { deleteRecord } = useDeleteRecord();
+
 	return (
 		<View style={styles.wrapper}>
 			<View style={styles.container}>
@@ -11,9 +14,11 @@ function HistoryRecord({ record }) {
 					<Text style={styles.dateText}>{record.time}</Text>
 				</View>
 			</View>
-			<View style={styles.recordsContainer}>
+			<TouchableOpacity
+				style={styles.recordsContainer}
+				onPress={() => deleteRecord(record.id)}>
 				<Text style={styles.recordText}>{record.value} ml</Text>
-			</View>
+			</TouchableOpacity>
 		</View>
 	);
 }

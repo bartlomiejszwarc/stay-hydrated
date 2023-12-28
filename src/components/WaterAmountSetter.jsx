@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { setSuggestedWaterAmount } from "../redux/slices/storageSlice";
@@ -9,6 +9,9 @@ function WaterAmountSetter() {
 		store.suggestedWaterAmount || 2000
 	);
 	const dispatch = useDispatch();
+	useEffect(() => {
+		dispatch(setSuggestedWaterAmount(store.suggestedWaterAmount || 2000));
+	}, []);
 
 	const handleOnPress = (value) => {
 		setDefaultWaterIntake((prev) => (prev += value));
@@ -21,13 +24,13 @@ function WaterAmountSetter() {
 			<TouchableOpacity
 				style={styles.button}
 				onPress={() => handleOnPress(-100)}>
-				<AntDesign name="minus" size={36} color="#fafafa" />
+				<AntDesign name="minus" size={28} color="#fafafa" />
 			</TouchableOpacity>
 			<Text style={styles.amountText}>{defaultWaterIntake} ml</Text>
 			<TouchableOpacity
 				style={styles.button}
 				onPress={() => handleOnPress(100)}>
-				<AntDesign name="plus" size={36} color="#fafafa" />
+				<AntDesign name="plus" size={28} color="#fafafa" />
 			</TouchableOpacity>
 		</View>
 	);
@@ -40,7 +43,6 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "center",
 		alignItems: "center",
-		backgrondColor: "green",
 		height: "auto",
 		width: "100%",
 		paddingTop: 10,
@@ -51,8 +53,8 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 15,
 	},
 	button: {
-		width: 50,
-		height: 50,
+		width: 40,
+		height: 40,
 		borderRadius: "100%",
 		backgroundColor: "#0ea5e9",
 		justifyContent: "center",
