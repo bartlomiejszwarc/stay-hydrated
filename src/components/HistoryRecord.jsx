@@ -10,11 +10,21 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useDeleteRecord } from "./../hooks/useDeleteRecord";
 import { Swipeable } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
-
+import { removeFromRecords } from "./../redux/slices/recordsSlice";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 const windowWidth = Dimensions.get("window").width;
 
 function HistoryRecord({ record }) {
 	const { deleteRecord } = useDeleteRecord();
+	const dispatch = useDispatch();
+
+	const handleDeleteRecord = async () => {
+		try {
+			await deleteRecord(record.id);
+			dispatch(removeFromRecords(record.id));
+		} catch (e) {}
+	};
 
 	const rightPanel = (progress, dragX) => {
 		const trans = dragX.interpolate({
@@ -25,17 +35,19 @@ function HistoryRecord({ record }) {
 
 		return (
 			<Animated.View style={styles.rightSwipeContainer}>
-				<Animated.View
-					style={{
-						transform: [{ translateX: trans }],
-					}}>
-					<Animated.Text
+				<TouchableOpacity onPress={handleDeleteRecord}>
+					<Animated.View
 						style={{
 							transform: [{ translateX: trans }],
 						}}>
-						<Ionicons name="ios-trash-bin" size={24} color="#fafafa" />
-					</Animated.Text>
-				</Animated.View>
+						<Animated.Text
+							style={{
+								transform: [{ translateX: trans }],
+							}}>
+							<Ionicons name="ios-trash-bin" size={24} color="#fafafa" />
+						</Animated.Text>
+					</Animated.View>
+				</TouchableOpacity>
 			</Animated.View>
 		);
 	};

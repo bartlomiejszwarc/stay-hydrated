@@ -8,11 +8,20 @@ import {
 	FlatList,
 } from "react-native";
 import { useGetAllRecords } from "../../hooks/useGetAllRecords";
-
 import HistoryRecord from "../../components/HistoryRecord";
+import { setRecords } from "../../redux/slices/recordsSlice";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 function HistoryScreen() {
 	const { records } = useGetAllRecords();
+	const store = useSelector((state) => state.records);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(setRecords(records));
+	}, [records]);
 
 	return (
 		<SafeAreaView>
@@ -22,7 +31,7 @@ function HistoryScreen() {
 			</View>
 			<View style={styles.container}>
 				<FlatList
-					data={records}
+					data={store.records}
 					renderItem={({ item }) => <HistoryRecord record={item} />}
 					keyExtractor={(item) => item.id}
 				/>
