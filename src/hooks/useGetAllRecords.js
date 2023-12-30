@@ -1,33 +1,29 @@
-import * as SQLite from "expo-sqlite";
-import { useEffect, useState } from "react";
+import * as SQLite from 'expo-sqlite';
+import { useEffect, useState } from 'react';
 
-const db = SQLite.openDatabase("database.db");
+const db = SQLite.openDatabase('database.db');
 
 export const useGetAllRecords = () => {
-	const [records, setRecords] = useState([]);
+  const [records, setRecords] = useState([]);
 
-	useEffect(() => {
-		const fetchDataFromDatabase = async () => {
-			try {
-				db.transaction(
-					(tx) => {
-						tx.executeSql(
-							"SELECT * FROM records ORDER BY date DESC, time DESC",
-							[],
-							(_, { rows: { _array } }) => {
-								setRecords(_array);
-							}
-						);
-					},
-					(error) => {
-						throw new Error("Error executing SQL: ", error);
-					}
-				);
-			} catch (error) {}
-		};
+  useEffect(() => {
+    const fetchDataFromDatabase = async () => {
+      try {
+        db.transaction(
+          (tx) => {
+            tx.executeSql('SELECT * FROM records ORDER BY date DESC, time DESC', [], (_, { rows: { _array } }) => {
+              setRecords(_array);
+            });
+          },
+          (error) => {
+            throw new Error('Error executing SQL: ', error);
+          },
+        );
+      } catch (error) {}
+    };
 
-		fetchDataFromDatabase();
-	}, []);
+    fetchDataFromDatabase();
+  }, []);
 
-	return { records };
+  return { records };
 };
