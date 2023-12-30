@@ -21,8 +21,7 @@ function WaterAmountSetter() {
 	}, []);
 
 	const handleOnPress = (value) => {
-		setDefaultWaterIntake(defaultWaterIntake + value);
-		const newValue = Number(defaultWaterIntake) + Number(value);
+		const newValue = JSON.parse(store.suggestedWaterAmount) + value;
 		dispatch(setSuggestedWaterAmount(newValue));
 	};
 

@@ -1,12 +1,4 @@
-import {
-	StyleSheet,
-	Text,
-	View,
-	ScrollView,
-	SafeAreaView,
-	Dimensions,
-	FlatList,
-} from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, FlatList } from "react-native";
 import { useGetAllRecords } from "../../hooks/useGetAllRecords";
 import HistoryRecord from "../../components/History/HistoryRecord";
 import { setRecords } from "../../redux/slices/recordsSlice";
