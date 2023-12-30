@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import { useEffect, useState } from "react";
-import { setSuggestedWaterAmount } from "./../redux/slices/storageSlice";
+import { setSuggestedWaterAmount } from "../../redux/slices/storageSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 function SuggestedWaterAmount({ data }) {

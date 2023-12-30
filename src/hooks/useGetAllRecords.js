@@ -23,9 +23,7 @@ export const useGetAllRecords = () => {
 						throw new Error("Error executing SQL: ", error);
 					}
 				);
-			} catch (error) {
-				console.log("Error fetching data from database: ", error);
-			}
+			} catch (error) {}
 		};
 
 		fetchDataFromDatabase();

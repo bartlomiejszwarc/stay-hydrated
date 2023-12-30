@@ -7,11 +7,11 @@ import {
 	Animated,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useDeleteRecord } from "./../hooks/useDeleteRecord";
+import { useDeleteRecord } from "../../hooks/useDeleteRecord";
 import { Swipeable } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
-import { removeFromRecords } from "./../redux/slices/recordsSlice";
-import { useSelector } from "react-redux";
+import { removeFromRecords } from "../../redux/slices/recordsSlice";
+import { addWaterAmount } from "../../redux/slices/storageSlice";
 import { useDispatch } from "react-redux";
 const windowWidth = Dimensions.get("window").width;
 
@@ -23,6 +23,9 @@ function HistoryRecord({ record }) {
 		try {
 			await deleteRecord(record.id);
 			dispatch(removeFromRecords(record.id));
+			if (record.date === new Date().toLocaleDateString("gb")) {
+				dispatch(addWaterAmount(record.value * -1));
+			}
 		} catch (e) {}
 	};
 
@@ -108,7 +111,7 @@ const styles = StyleSheet.create({
 	rightSwipeContainer: {
 		alignItems: "center",
 		justifyContent: "center",
-		backgroundColor: "#b91c1c",
+		backgroundColor: "#dc2626",
 		width: 50,
 	},
 });

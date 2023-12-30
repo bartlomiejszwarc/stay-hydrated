@@ -6,25 +6,13 @@ export const useDeleteRecord = () => {
 		try {
 			db.transaction(
 				(tx) => {
-					tx.executeSql(
-						"DELETE FROM records WHERE id = ?",
-						[id],
-						(_, { rowsAffected }) => {
-							if (rowsAffected > 0) {
-								console.log("Record deleted successfully");
-							} else {
-								console.log("Failed to delete record");
-							}
-						}
-					);
+					tx.executeSql("DELETE FROM records WHERE id = ?", [id], (_) => {});
 				},
 				(error) => {
-					console.log("Error executing SQL: ", error);
+					throw Error("Error executing SQL: ", error);
 				}
 			);
-		} catch (e) {
-			console.log("Error: " + e);
-		}
+		} catch (e) {}
 	};
 	return { deleteRecord };
 };

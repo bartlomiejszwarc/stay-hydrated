@@ -21,9 +21,9 @@ import {
 	setAutoWaterIntakeEnabled,
 	setSuggestedWaterAmount,
 } from "../../redux/slices/storageSlice";
-import SuggestedWaterAmount from "../../components/SuggestedWaterAmount";
+import SuggestedWaterAmount from "../../components/Settings/SuggestedWaterAmount";
 import { Ionicons } from "@expo/vector-icons";
-import WaterAmountSetter from "../../components/WaterAmountSetter";
+import WaterAmountSetter from "../../components/Settings/WaterAmountSetter";
 
 function SettingsScreen() {
 	const dispatch = useDispatch();

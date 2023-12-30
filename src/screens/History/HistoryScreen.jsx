@@ -8,7 +8,7 @@ import {
 	FlatList,
 } from "react-native";
 import { useGetAllRecords } from "../../hooks/useGetAllRecords";
-import HistoryRecord from "../../components/HistoryRecord";
+import HistoryRecord from "../../components/History/HistoryRecord";
 import { setRecords } from "../../redux/slices/recordsSlice";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";

@@ -1,27 +1,15 @@
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Picker } from "react-native-wheel-pick";
-import { useState, useEffect } from "react";
-import { useStoreData } from "../hooks/useStoreData";
-import * as SQLite from "expo-sqlite";
+import { useState } from "react";
+import { useStoreData } from "../../hooks/useStoreData";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { addWaterAmount } from "../redux/slices/storageSlice";
+import { addWaterAmount } from "../../redux/slices/storageSlice";
 import { useDispatch } from "react-redux";
-
-const db = SQLite.openDatabase("database.db");
 
 function AmountPicker() {
 	const [amount, setAmount] = useState(250);
 	const { storeData } = useStoreData();
 	const dispatch = useDispatch();
-
-	useEffect(() => {
-		db.transaction((tx) => {
-			//tx.executeSql("DROP TABLE IF EXISTS records");
-			tx.executeSql(
-				"CREATE TABLE IF NOT EXISTS records (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, time TEXT, value INTEGER);"
-			);
-		});
-	}, []);
 
 	const storeDataInDatabase = async () => {
 		dispatch(addWaterAmount(amount));

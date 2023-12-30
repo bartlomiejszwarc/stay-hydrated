@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
-import DailyProgress from "../../components/DailyProgress";
+import DailyProgress from "../../components/Home/DailyProgress";
 import { useState, useEffect } from "react";
-import AmountPicker from "../../components/Picker";
+import AmountPicker from "../../components/Home/Picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";

@@ -1,7 +1,5 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as SQLite from "expo-sqlite";
 import { useState } from "react";
-
 const db = SQLite.openDatabase("database.db");
 
 export const useGetDailyAmount = () => {
@@ -27,9 +25,7 @@ export const useGetDailyAmount = () => {
 					throw new Error("Error executing SQL: ", error);
 				}
 			);
-		} catch (error) {
-			console.log("Error fetching data from database: ", error);
-		}
+		} catch (error) {}
 	};
 
 	return { getData, dailyAmount };

@@ -13,10 +13,21 @@ import { Provider } from "react-redux";
 import { store } from "./src/redux/store";
 import "react-native-gesture-handler";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import * as SQLite from "expo-sqlite";
+import { useEffect } from "react";
+
+const db = SQLite.openDatabase("database2.db");
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+	useEffect(() => {
+		db.transaction((tx) => {
+			tx.executeSql(
+				"CREATE TABLE IF NOT EXISTS records (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, time TEXT, value INTEGER);"
+			);
+		});
+	}, []);
 	return (
 		<GestureHandlerRootView style={{ flex: 1 }}>
 			<Provider store={store}>

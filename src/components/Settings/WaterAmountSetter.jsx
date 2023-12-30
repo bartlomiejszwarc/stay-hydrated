@@ -2,20 +2,27 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useState, useEffect } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { setSuggestedWaterAmount } from "../redux/slices/storageSlice";
+import { setSuggestedWaterAmount } from "../../redux/slices/storageSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 function WaterAmountSetter() {
 	const store = useSelector((data) => data.storage);
-	const [defaultWaterIntake, setDefaultWaterIntake] = useState(
-		store.suggestedWaterAmount || 2000
-	);
+	const [defaultWaterIntake, setDefaultWaterIntake] = useState(2000);
 	const dispatch = useDispatch();
 	useEffect(() => {
-		dispatch(setSuggestedWaterAmount(store.suggestedWaterAmount || 2000));
+		const setAmount = async () => {
+			const value = await AsyncStorage.getItem("suggestedWaterAmount");
+			if (JSON.parse(value) > 0) {
+				dispatch(setSuggestedWaterAmount(value));
+			} else {
+				dispatch(setSuggestedWaterAmount(2000));
+			}
+		};
+		setAmount();
 	}, []);
 
 	const handleOnPress = (value) => {
-		setDefaultWaterIntake((prev) => (prev += value));
-		const newValue = defaultWaterIntake + value;
+		setDefaultWaterIntake(defaultWaterIntake + value);
+		const newValue = Number(defaultWaterIntake) + Number(value);
 		dispatch(setSuggestedWaterAmount(newValue));
 	};
 
@@ -26,7 +33,7 @@ function WaterAmountSetter() {
 				onPress={() => handleOnPress(-100)}>
 				<AntDesign name="minus" size={28} color="#fafafa" />
 			</TouchableOpacity>
-			<Text style={styles.amountText}>{defaultWaterIntake} ml</Text>
+			<Text style={styles.amountText}>{store.suggestedWaterAmount} ml</Text>
 			<TouchableOpacity
 				style={styles.button}
 				onPress={() => handleOnPress(100)}>

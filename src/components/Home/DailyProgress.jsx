@@ -1,8 +1,8 @@
 import ProgressCircle from "react-native-progress-circle";
 import { Text, View } from "react-native";
 import { useEffect } from "react";
-import { useGetDailyAmount } from "../hooks/useGetDailyAmount";
-import { setWaterAmount } from "../redux/slices/storageSlice";
+import { useGetDailyAmount } from "../../hooks/useGetDailyAmount";
+import { setWaterAmount } from "../../redux/slices/storageSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 function DailyProgress({ dailyAmount }) {

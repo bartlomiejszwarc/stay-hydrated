@@ -19,22 +19,14 @@ export const useStoreData = () => {
 					tx.executeSql(
 						"INSERT INTO records (date, time, value) VALUES (?, ?, ?)",
 						[currentDate, currentTime, intValue],
-						(_, { rowsAffected }) => {
-							if (rowsAffected > 0) {
-								console.log("Record inserted successfully");
-							} else {
-								console.log("Failed to insert record");
-							}
-						}
+						(_) => {}
 					);
 				},
 				(error) => {
-					console.log("Error executing SQL: ", error);
+					throw new Error("Error executing SQL: ", error);
 				}
 			);
-		} catch (e) {
-			console.log("Error: " + e);
-		}
+		} catch (e) {}
 	};
 
 	return { storeData };
